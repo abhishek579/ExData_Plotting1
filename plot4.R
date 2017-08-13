@@ -40,15 +40,26 @@ dataset <- subset(dataset, date >= "2007-02-01" & date <= "2007-02-02")
 # Add a variable to the dataset to store the timestamp
 dataset$datetime <- strptime(paste(dataset$date, dataset$time, sep = " "), format = "%Y-%m-%d %H:%M:%S")
 
-# Create a PNG file plot3.png of the specified height and width
-png(filename = "plot3.png", width = 480, height = 480, units = "px")
+# Create a PNG file plot4.png of the specified height and width
+png(filename = "plot4.png", width = 480, height = 480, units = "px")
 
-# Code to create the desired plot3
-plot(dataset$datetime, dataset$submetering1, type = "l", xlab = "", ylab = "Energy sub metering", col = "black")
-lines(dataset$datetime, dataset$submetering2, type = "l", col = "red")
-lines(dataset$datetime, dataset$submetering3, type = "l", col = "blue")
-legend("topright", col = c("black", "red", "blue"), lty = 1, lwd = 2, legend = c("Sub_metering_1", "Sub_metering_2", "Sub_metering_3"))
+# Code to create the desired plot4
+par(mfrow = c(2,2))
 
+with(dataset, plot(datetime, globalactivepower, type="l", xlab = "", ylab = "Global Active Power"))
+
+with(dataset, plot(datetime, voltage, type = "l", xlab = "datetime", ylab = "Voltage"))
+
+
+with(dataset, {
+	plot(datetime, submetering1, type = "l", xlab = "", ylab = "Energy sub metering", col = "black")
+	lines(datetime, submetering2, type = "l", col = "red")
+	lines(datetime, submetering3, type = "l", col = "blue")
+})
+
+	legend("topright", col = c("black", "red", "blue"), lty = 1, lwd = 2, legend = c("Sub_metering_1", "Sub_metering_2", "Sub_metering_3"))
+
+with(dataset, plot(datetime, globalreactivepower, type = "l", xlab = "datetime", ylab = "Global_reactive_power"))
 
 dev.off()
 
